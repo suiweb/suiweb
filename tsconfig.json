@@ -1,0 +1,20 @@
+{
+    "include": ["src/**/*.ts", "demo/**/*.ts", "demo/**/*.tsx"],
+    "compilerOptions": {
+        // Specify used libraries and strict mode
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "strict": true,
+        "module": "ESNext",
+        "target": "ESNext",
+
+        // Nothing should be emitted (built with vite).
+        "noEmit": true,
+
+        // Other recommended configuration
+        "jsx": "preserve",
+        "isolatedModules": true,
+        "importsNotUsedAsValues": "error",
+        "moduleResolution": "NodeNext",
+        "forceConsistentCasingInFileNames": true
+    }
+}
