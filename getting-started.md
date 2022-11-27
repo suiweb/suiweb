@@ -80,7 +80,7 @@ render(
 
 ### Download SuiWeb
 
-This script above contains a little application which renders with SuiWeb. If you look at the first couple of lines, you see that some `import` statements, which are needed to load SuiWeb. To get them, download [suiweb.zip](/suiweb/suiweb/releases/latest/download/suiweb.zip) from the releases section. In this archive, you can find two directories `dist-js` and `dist-min` (besides others). 
+This script above contains a little application which renders with SuiWeb. If you look at the first couple of lines, you see that some `import` statements, which are needed to load SuiWeb. To get them, download [suiweb.zip](https://github.com/suiweb/suiweb/releases/latest/download/suiweb.zip) from the releases section. In this archive, you can find two directories `dist-js` and `dist-min` (besides others). 
 
 Now, it's up to you to decide in which form you want to use SuiWeb: `dist-js` contains nicely readable JavaScript code (transformed from the TypeScript source code), split up to multiple files. Use the files in this directory if you'd like to look at the JavaScript source code directly from within this project. 
 
