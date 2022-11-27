@@ -84,7 +84,7 @@ This script above contains a little application which renders with SuiWeb. If yo
 
 Now, it's up to you to decide in which form you want to use SuiWeb: `dist-js` contains nicely readable JavaScript code (transformed from the TypeScript source code), split up to multiple files. Use the files in this directory if you'd like to look at the JavaScript source code directly from within this project. 
 
-If you prefer to look at the original *TypeScript* source code instead, you should download and open the source code of SuiWeb in another window in your code editor, or just look at it at [GitHub](https://github.zhaw.ch/pa-schuhsim-siegetim/pa-suiweb). In that case, you can go with the files in `dist-min`. This contains the minified version of SuiWeb, so it's not that nicely readable for humans, as everything has been merged into a single file, variable names have been shortened and things like comments and function documentation have been removed. 
+If you prefer to look at the original *TypeScript* source code instead, you should download and open the source code of SuiWeb in another window in your code editor, or just look at it at GitHub. In that case, you can go with the files in `dist-min`. This contains the minified version of SuiWeb, so it's not that nicely readable for humans, as everything has been merged into a single file, variable names have been shortened and things like comments and function documentation have been removed. 
 
 If you are unsure, go for `dist-js`, this might be a bit more intuitive at the beginning. And you can change anytime to the minified version later, with little effort.
 
