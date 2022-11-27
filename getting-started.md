@@ -101,6 +101,6 @@ import { createElement, parseSjdon, render, useState } from './suiweb/suiweb.js'
 
 ## Verify Your Setup
 
-Now, you have everything set up, so you can verify your setup. For that, open the URL of your local web server (e.g., `http://localhost:3000`, if you chose to go for `npx serve`) in your web browser. You should now see a title saying "SuiWeb App" and a text field. If you change the text in the text field, the title should update in real time. If this works, congratulations! You're now ready to start with the [tutorial](levels/README.md).
+Now, you have everything set up, so you can verify your setup. For that, open the URL of your local web server (e.g., `http://localhost:3000`, if you chose to go for `npx serve`) in your web browser. You should now see a title saying "SuiWeb App" and a text field. If you change the text in the text field, the title should update in real time. If this works, congratulations!.
 
 In case you just see blank white page, open the developer options of your web browser and see if you can find any errors there, which might indicate what went wrong.
