@@ -1,4 +1,3 @@
-import type { SjdonProps } from './sjdon'
 import { type Primitive, isPrimitive } from './utils'
 
 /**
@@ -23,7 +22,7 @@ export type StaticFiber = {
      * There are special props like `key` which serve their custom purpose and are not added to the DOM node.
      * @see {@link isNormalProp}
      */
-    props: Readonly<FiberProps>
+    props: Readonly<Props>
     /**
      * The children of the fiber are stored in a map where every child has a unique key.
      * If no `key` is provided in the `props` of the corresponding child, a default key is used.
@@ -85,7 +84,7 @@ export type FunctionalFiber = {
      * These will be the `props` that will be added to the DOM node.
      * @see {@link StaticFiber}
      */
-    functionProps: Readonly<FiberProps>
+    functionProps: Readonly<Props>
     /**
      * The `memorizedStates` array contains all stored values of the component's hooks.
      */
@@ -95,7 +94,7 @@ export type FunctionalFiber = {
 /**
  * The `FiberFunction` of a {@link FunctionalFiber}, which returns a {@link Fiber}.
  */
-export type FiberFunction = (props?: SjdonProps) => Fiber
+export type FiberFunction = (props?: Props) => Fiber
 
 /**
  * Determines if an object is of type {@link FunctionalFiber}.
@@ -113,10 +112,36 @@ export function isFunctionalFiber(object: unknown): object is FunctionalFiber {
 }
 
 /**
- * The props of a fiber. These will either be added to the DOM (when it is a {@link StaticFiber})
- * or passed as a parameter to the `fiberFunction` of a {@link FunctionalFiber}.
+ * The Props which a SuiWeb {@link Fiber} expects.
  */
-export type FiberProps = SjdonProps
+export type Props = {
+    /**
+     * A unique key to differentiate the element between its siblings.
+     * This should always be set when the number of elements is dynamic,
+     * e.g., when using {@link Array.map} to create elements.
+     */
+    key?: string | number | null
+    /**
+     * The style of the element.
+     * @see {@link StyleProp}
+     */
+    style?: StyleProp
+    /**
+     * Children must not be passed in the props, as they will be overwritten.
+     * They should be specified as child elements in a represenation like `SJDON` or `JSX`.
+     */
+    children?: never
+} & Partial<Omit<HTMLElement, 'style' | 'children'>> &
+    Record<string, unknown>
+
+/**
+ * The `StyleProp` is usally passed as the `style` property of the props.
+ * It can either be:
+ * - a CSS string which is set directly to style attribute.
+ * - an object containing CSS properties in camelCase.
+ * - an array of objects containing CSS properties in camcelCase.
+ */
+export type StyleProp = string | Partial<CSSStyleDeclaration> | Partial<CSSStyleDeclaration>[]
 
 /**
  * Determines if the given `propName` is a normal prop which should be directly added to
@@ -134,10 +159,10 @@ export function isNormalProp(propName: string): boolean {
  * Can be used with SJDON, but also standards like JSX.
  * It is in the same format as the `React.createElement` function so it could possibly
  * be interchanged. But note that the typings don't match exactly,
- * e.g., `React.createElement` can't handle all values of {@link SjdonProps}.
+ * e.g., `React.createElement` can't handle all values of {@link Props}.
  * @param type - The type can either be a HTML tag or a function, which returns an element.
  * @param props - The props of the element. If JSX is used instead of SJDON, it has to be made sure
- * that the "special props" like `style` or `key` overlap enough with the {@link SjdonProps}.
+ * that the "special props" like `style` or `key` overlap enough with the {@link Props}.
  * This should be the case for the properties `style` and `key`, but is not guaranteed for all props.
  * To provide basic functionality, also JSX `on<Event>` event handlers are supported.
  * @param children - The children of the element.
@@ -145,7 +170,7 @@ export function isNormalProp(propName: string): boolean {
  */
 export type CreateElementFunction<T = Fiber> = (
     type: keyof HTMLElementTagNameMap | ((props?: Record<string, unknown>) => T),
-    props: SjdonProps | null,
+    props: Props | null,
     ...children: (T | Primitive)[]
 ) => T
 

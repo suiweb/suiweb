@@ -1,5 +1,4 @@
-import { isNormalProp, FiberProps, StaticFiber } from './fiber'
-import type { StyleProp } from './sjdon'
+import { isNormalProp, type StaticFiber, type StyleProp, type Props } from './fiber'
 import { isText } from './utils'
 
 /**
@@ -31,11 +30,7 @@ export function createDomNode(fiber: StaticFiber): Text | HTMLElement {
  * @param previousProps - The props of the previous version. These will be removed.
  * @param currentProps - The props of the current version. These will be added.
  */
-export function updateDomNode(
-    domNode: HTMLElement | Text,
-    previousProps: FiberProps = {},
-    currentProps: FiberProps = {}
-) {
+export function updateDomNode(domNode: HTMLElement | Text, previousProps: Props = {}, currentProps: Props = {}) {
     if (isText(domNode)) {
         domNode.nodeValue = currentProps.nodeValue ?? ''
         return

@@ -1,45 +1,12 @@
-import type { CreateElementFunction } from './fiber'
-import { isPrimitive, Primitive } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { createElement } from './fiber'
+import type { CreateElementFunction, Props, createElement } from './fiber'
+import { isPrimitive, Primitive } from './utils'
 
 /**
  * The type of a {@link SjdonElement}, which is specified in the first element of the array.
  * It can either be a HTML tag or a {@link SjdonElementFunction}.
  */
 export type SjdonElementType = keyof HTMLElementTagNameMap | SjdonElementFunction
-
-/**
- * The props of a {@link SjdonElement}. Can be passed anywhere in the array except as the first element.
- */
-export type SjdonProps = {
-    /**
-     * A unique key to differentiate the element between its siblings.
-     * This should always be set when the number of elements is dynamic,
-     * e.g., when using {@link Array.map} to create elements.
-     */
-    key?: string | number | null
-    /**
-     * The style of the element.
-     * @see {@link StyleProp}
-     */
-    style?: StyleProp
-    /**
-     * Children must not be passed in the props, as they will be overwritten.
-     * They should be passed as child elements inside the {@link SjdonElement}.
-     */
-    children?: never
-} & Partial<Omit<HTMLElement, 'style' | 'children'>> &
-    Record<string, unknown>
-
-/**
- * The `StyleProp` is usally passed as the `style` property of the props.
- * It can either be:
- * - a CSS string which is set directly to style attribute.
- * - an object containing CSS properties in camelCase.
- * - an array of objects containing CSS properties in camcelCase.
- */
-export type StyleProp = string | Partial<CSSStyleDeclaration> | Partial<CSSStyleDeclaration>[]
 
 /**
  * A `SjdonElementFunction` takes in props as a parameter and returns a {@link SjdonElement}.
@@ -79,14 +46,16 @@ export type SjdonElementOrPrimitive = SjdonElement | Primitive
  * ]
  * ```
  */
-export type SjdonElement = [SjdonElementType, ...(SjdonElementOrPrimitive | SjdonProps)[]]
+export type SjdonElement = [SjdonElementType, ...(SjdonElementOrPrimitive | Props)[]]
 
 /**
- * Checks if the given object is of type {@link SjdonProps}.
+ * Checks if the given object is of type {@link Props}.
+ * It is only checked, if the object is of type `object`,
+ * but the properties of the object are not type-checked.
  * @param object - The object to check.
- * @returns `true` if the given object is of type {@link SjdonProps}.
+ * @returns `true` if the given object is of type {@link Props}.
  */
-export function isSjdonProps(object: unknown): object is SjdonProps {
+function isSjdonProps(object: unknown): object is Props {
     return typeof object === 'object' && !Array.isArray(object)
 }
 
@@ -95,7 +64,7 @@ export function isSjdonProps(object: unknown): object is SjdonProps {
  * @param object - The object to check.
  * @returns `true` if the given object is of type {@link SjdonElement}.
  */
-export function isSjdonElement(object: unknown): object is SjdonElement {
+function isSjdonElement(object: unknown): object is SjdonElement {
     return Array.isArray(object) && object.length != 0 && ['string', 'function'].includes(typeof object[0])
 }
 
@@ -105,7 +74,7 @@ export function isSjdonElement(object: unknown): object is SjdonElement {
  * @param object - The object to check.
  * @returns `true` if the given object is of type {@link SjdonElement}.
  */
-export function isSjdonChild(object: unknown): object is SjdonElementOrPrimitive {
+function isSjdonChild(object: unknown): object is SjdonElementOrPrimitive {
     return isPrimitive(object) || isSjdonElement(object)
 }
 
@@ -124,7 +93,7 @@ export function isSjdonChild(object: unknown): object is SjdonElementOrPrimitive
  */
 export function parseSjdon<T>([type, ...rest]: SjdonElement, create: CreateElementFunction<T>): T {
     const propsArray = rest.filter(isSjdonProps)
-    const props: SjdonProps = Object.assign({}, ...propsArray)
+    const props: Props = Object.assign({}, ...propsArray)
     const children = rest.filter(isSjdonChild)
 
     if (typeof type == 'string') {

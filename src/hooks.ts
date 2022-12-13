@@ -1,21 +1,18 @@
-import type { FunctionalFiber } from './fiber'
-import { rerenderFunctionalFiber } from './render'
-
-let fiber: FunctionalFiber
-let fiberContainer: HTMLElement
+let states: unknown[]
+let rerender: () => void
 let stateIndex = 0
 
 /**
- * This function should be called before a {@link FunctionalFiber} executes its `fiberFunction`.
- * It will set a reference to the given fiber and container inside the `hooks` module,
+ * This function should be called before a `FunctionalFiber` executes its `fiberFunction`.
+ * It will set a reference to the given memorizedStates and the function used to re-render this fiber,
  * so those values can then be captured inside the corresponding functions when the {@link useState}
  * and {@link useEffect} hooks are called in the `fiberFunction`.
- * @param functionalFiber - The `FunctionalFiber`, whose `fiberFunction` will be executed.
- * @param container - The conatiner, inside of which the `funtionalFiber` will be rendered.
+ * @param memorizedStates - The `memorizedStates`, of the `FunctionalFiber` which this state belongs to.
+ * @param rerenderFunction - The function which will re-render the fiber which this state belongs to.
  */
-export function prepareToUseHooks(functionalFiber: FunctionalFiber, container: HTMLElement) {
-    fiber = functionalFiber
-    fiberContainer = container
+export function prepareToUseHooks(memorizedStates: unknown[], rerenderFunction: () => void) {
+    states = memorizedStates
+    rerender = rerenderFunction
     stateIndex = 0
 }
 
@@ -41,9 +38,8 @@ export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
     // By assining these variables inside this function, their references are captured.
     // This means that when setState is called later, e.g., the capturedStates array
     // still has the same reference as it had at the time this function (useState) was called.
-    const capturedFiber = fiber
-    const capturedStates = fiber.memorizedStates
-    const capturedFiberContainer = fiberContainer
+    const capturedStates = states
+    const capturedRerender = rerender
     const capturedStateIndex = stateIndex
 
     // The current value of the state
@@ -52,7 +48,7 @@ export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
     // This function updates the values of the states and triggers a re-render of the component.
     const setState = (newValue: T) => {
         capturedStates[capturedStateIndex] = newValue
-        rerenderFunctionalFiber(capturedFiber, capturedFiberContainer)
+        capturedRerender()
     }
 
     // The state index is incremented, so the correct element from the array is taken as the state value.
@@ -92,8 +88,8 @@ export function useState<T>(initialValue: T): [T, (newValue: T) => void] {
  *
  * @public
  */
-export function useEffect(action: () => (() => void) | void, dependencies?: unknown[]) {
-    const capturedStates = fiber.memorizedStates
+export function useEffect(action: () => void, dependencies?: unknown[]) {
+    const capturedStates = states
     let shouldCallAction = false
 
     if (dependencies !== undefined) {
@@ -123,5 +119,5 @@ export function useEffect(action: () => (() => void) | void, dependencies?: unkn
     })
 
     // If any criteria for a re-render is met, run `action`
-    if (shouldCallAction) action()
+    if (shouldCallAction) setTimeout(action)
 }

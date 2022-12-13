@@ -1,6 +1,6 @@
 {
     "name": "suiweb",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "scripts": {
         "dev": "vite",
         "build": "npm run build-dist && npm run build-js",
