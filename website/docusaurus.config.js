@@ -16,7 +16,7 @@ const config = {
 
   // GitHub pages deployment config.
   organizationName: 'suiweb',
-  projectName: 'suiweb',
+  projectName: 'suiweb.github.io',
   deploymentBranch: 'gh-pages',
   githubHost: 'github.com',
   githubPort: '22',
