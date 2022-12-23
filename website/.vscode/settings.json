@@ -1,0 +1,6 @@
+{
+    "ltex.language": "en-US",
+    "ltex.enabled": [
+        "markdown",
+    ]
+}

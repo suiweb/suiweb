@@ -1,0 +1,7 @@
+# This file must be used with "source scripts/set-env" *from bash*
+# you cannot run it directly
+
+export GIT_AUTHOR_NAME="SuiWeb"
+export GIT_COMMITTER_NAME="SuiWeb"
+export GIT_AUTHOR_EMAIL="bot@suiweb.github.io"
+export GIT_COMMITTER_EMAIL="bot@suiweb.github.io"

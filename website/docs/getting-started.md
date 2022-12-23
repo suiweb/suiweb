@@ -1,3 +1,7 @@
+---
+sidebar_position: 1
+---
+
 # Getting Started
 
 The following page will give you some indications on what is needed to get started with SuiWeb. It's possible that you are already familiar with some of the steps below. In that case, feel free to read through them a bit quicker or skip them.
