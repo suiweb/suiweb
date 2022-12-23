@@ -26,14 +26,3 @@ If you want to learn more about SuiWeb, check out the [tutorial](https://suiweb.
 ## Demos 🖥️
 
 You can find some demos showing the functionality of SuiWeb in the [demos](demos) directory.
-
-
-## Report 📖
-
-The report on the project work, which is written in German, can be found [here](pa-bericht/out/pa-bericht.pdf).
-
-
-## Project Management 🤓
-
-- [Roadmap](project-management/roadmap.md)
-- [Meeting Notes](project-management/meeting-notes)
